@@ -1,0 +1,15 @@
+ new Promise<DBHandle>((resolve) => {
+    if (!client.connected) resolve(dbHandle);
+  })
+    .then((db) => {
+      db.close();
+      return Promise.resolve<http.Server>(server);
+    })
+    .then((server) => {
+      server.close();
+      return Promise.resolve<(n: number) => void>((n) => {
+        exit = true;
+        info(n);
+      });
+    })
+    .then((With) => With(1));
